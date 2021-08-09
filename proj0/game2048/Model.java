@@ -5,7 +5,7 @@ import java.util.Observable;
 
 
 /** The state of a game of 2048.
- *  @author TODO: YOUR NAME HERE
+ *  @JackPamukci TODO: YOUR NAME HERE
  */
 public class Model extends Observable {
     /** Current contents of the board. */
@@ -136,8 +136,16 @@ public class Model extends Observable {
     /** Returns true if at least one space on the Board is empty.
      *  Empty spaces are stored as null.
      * */
+
+
     public static boolean emptySpaceExists(Board b) {
-        // TODO: Fill in this function.
+        for(int i = 0; i < b.size(); i++){
+            for(int k = 0; k < b.size(); k++) {
+                    if(b.tile(i, k) == null){
+                        return true;
+                    }
+                }
+            }
         return false;
     }
 
@@ -147,7 +155,24 @@ public class Model extends Observable {
      * given a Tile object t, we get its value with t.value().
      */
     public static boolean maxTileExists(Board b) {
-        // TODO: Fill in this function.
+
+        for (int i = 0; i < b.size(); i++){
+            for (int k = 0; k < 4; k++){
+                if(b.tile(i, k) != null){
+                    Tile t = b.tile(i, k);
+                    if(t.value() == MAX_PIECE){
+                        return true;
+                    }
+                }
+                else{
+                    continue;
+                }
+
+
+
+
+            }
+        }
         return false;
     }
 
@@ -157,8 +182,29 @@ public class Model extends Observable {
      * 1. There is at least one empty space on the board.
      * 2. There are two adjacent tiles with the same value.
      */
+    public static boolean sameValueMove(Board b){
+        for(int i = 0; i < 3; i++){
+            for (int k = 0; k < 3; k++){
+                if(b.tile(i, k) != null) {
+
+                    if (b.tile(i, k).value() == b.tile(i, k + 1).value() || b.tile(i , k).value() == b.tile(i + 1, k).value()) {
+                        return true;
+                    }
+                }
+            }
+        }
+        if(b.tile(3, 3).value() == b.tile(2, 3).value()){
+            return true;
+        }
+
+        return false;
+    }
+
+
     public static boolean atLeastOneMoveExists(Board b) {
-        // TODO: Fill in this function.
+        if(emptySpaceExists(b) || sameValueMove(b)){
+            return true;
+        }
         return false;
     }
 

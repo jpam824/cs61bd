@@ -89,6 +89,7 @@ public class TestEmptySpace {
 
         assertTrue("Right col is empty\n" + b,
                 Model.emptySpaceExists(b));
+
     }
 
     @Test
