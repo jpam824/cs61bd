@@ -106,9 +106,67 @@ public class Model extends Observable {
      *    value, then the leading two tiles in the direction of motion merge,
      *    and the trailing tile does not.
      * */
+
+
+
+
+
+//
+//    public int desiredRow(Tile t){
+//        int desired = 0;
+//        for(int r = 3; r > t.row(); r--) {
+//            if (board.tile(t.col(), r) == null || t.value() == board.tile(t.col(), r).value()){
+//                desired++;
+//
+//            }
+//        }
+//
+//
+//
+//        return desired;
+//    }
+
+
     public boolean tilt(Side side) {
+        board.setViewingPerspective(side);
         boolean changed;
-        changed = true;
+        changed = false;
+        for(int c = 0; c < board.size(); c++){
+            boolean[] merged = new boolean[4];
+            for(int r = 3; r >= 0; r--){
+                Tile t = board.tile(c, r);
+                if(t == null){
+                    continue;
+                }
+                int pointer = r + 1;
+                while(pointer < 3 && board.tile(c, pointer) == null){
+                    pointer++;
+                }
+                if(pointer >= 4){
+                    continue;
+                }
+                if(board.tile(c, pointer) == null){
+                    board.move(c, pointer, t);
+                }
+                else if(board.tile(c, pointer).value() == t.value() && !merged[pointer]){
+                    board.move(c, pointer, t);
+                    score += t.value() * 2;
+                    merged[pointer] = true;
+                }
+                else if(pointer == r+1){
+                    continue;
+                }
+                else{
+                    board.move(c, pointer - 1, t);
+                }
+                changed = true;
+            }
+        }
+
+
+
+        board.setViewingPerspective(Side.NORTH);
+
 
         // TODO: Modify this.board (and perhaps this.score) to account
         // for the tilt to the Side SIDE. If the board changed, set the
@@ -120,7 +178,6 @@ public class Model extends Observable {
         }
         return changed;
     }
-
     /** Checks if the game is over and sets the gameOver variable
      *  appropriately.
      */
@@ -164,9 +221,7 @@ public class Model extends Observable {
                         return true;
                     }
                 }
-                else{
-                    continue;
-                }
+
 
 
 
