@@ -232,10 +232,7 @@ public class Model extends Observable {
     }
 
     /**
-     * Returns true if there are any valid moves on the board.
-     * There are two ways that there can be valid moves:
-     * 1. There is at least one empty space on the board.
-     * 2. There are two adjacent tiles with the same value.
+     * Returns true if adjacent values are the same in any direction.
      */
     public static boolean sameValueMove(Board b){
         for(int i = 0; i < 3; i++){
@@ -255,7 +252,12 @@ public class Model extends Observable {
         return false;
     }
 
-
+    /**
+     * Returns true if there are any valid moves on the board.
+     * There are two ways that there can be valid moves:
+     * 1. There is at least one empty space on the board.
+     * 2. There are two adjacent tiles with the same value.
+     */
     public static boolean atLeastOneMoveExists(Board b) {
         if(emptySpaceExists(b) || sameValueMove(b)){
             return true;
